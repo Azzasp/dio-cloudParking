@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ParkingService {
@@ -38,5 +39,17 @@ public class ParkingService {
         parkingCreate.setEntryDate(LocalDateTime.now());
         parkingMap.put(uuid, parkingCreate);
         return parkingCreate;
+    }
+
+    public void delete(String id) {
+        var byId = findById(id);
+        parkingMap.remove(byId);
+    }
+
+    public Parking update(String id, Parking parkingCreate) {
+        var parking = findById(id);
+        parking.setColor(parkingCreate.getColor());
+        parkingMap.replace(id, parkingCreate);
+        return parking;
     }
 }
